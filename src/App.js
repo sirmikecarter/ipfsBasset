@@ -11,8 +11,18 @@ class App extends Component {
     buffer:'',
     ethAddress:'',
     transactionHash:'',
-    txReceipt: ''
+    txReceipt: '',
+    account: web3.eth.accounts[0]
   };
+
+  componentWillMount() {
+      this.loadBlockchainData()
+    }
+
+    async loadBlockchainData() {
+      const accounts = await web3.eth.getAccounts()
+      this.setState({ account: accounts[0] })
+    }
 
   usercaptureFile =(event) => {
     event.stopPropagation()
@@ -77,11 +87,18 @@ class App extends Component {
 
         <div className="App">
         <header className="App-header">
-        <h1>Ethereum and IPFS using Infura</h1>
+        <h1>BlockchainAsset.Me</h1>
+        <br></br>
+        <h2>Using Ethereum, Truffle, Metamask, IPFS and Infura</h2>
+        <br></br>
+        <h4>Account Address: {this.state.account}</h4>
+        <br></br>
+        <h4>Items: 10</h4>
+        <h4>Value: $500.34</h4>
         </header>
         <hr/>
         <grid>
-        <h3> Choose file to send to IPFS </h3>
+        <h3>Select a Picture to add to your Inventory</h3>
         <form onSubmit={this.onSubmit}>
         <input type = "file" onChange = {this.usercaptureFile}/>
          <Button bsStyle="primary" type="submit"> Send it </Button></form><hr/>
@@ -91,10 +108,10 @@ class App extends Component {
          <th>Values</th></tr></thead>
       <tbody><tr><td>IPFS Hash stored on Ethereum</td>
       <td> : </td>
-      <td>{this.state.ipfsHash}</td></tr>
+      <td><a href={'https://gateway.ipfs.io/ipfs/'+ this.state.ipfsHash} target="_blank">{this.state.ipfsHash}</a></td></tr>
       <tr><td>Ethereum Contract Address</td><td> : </td>
-      <td>{this.state.ethAddress}</td></tr><tr><td>Tx # </td>
-      <td> : </td> <td>{this.state.transactionHash}</td></tr>
+      <td><a href={'https://ropsten.etherscan.io/address/'+ this.state.ethAddress} target="_blank">{this.state.ethAddress}</a></td></tr><tr><td>Tx # </td>
+      <td> : </td> <td><a href={'https://ropsten.etherscan.io/tx/'+ this.state.transactionHash} target="_blank">{this.state.transactionHash}</a></td></tr>
       </tbody>
       </table>
       </grid>
