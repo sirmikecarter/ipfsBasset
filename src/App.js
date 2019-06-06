@@ -60,14 +60,14 @@ class App extends Component {
     await ipfs.add(this.state.buffer, (err, ipfsHash) => {
       console.log(err,ipfsHash);
       //setState by setting ipfsHash to ipfsHash[0].hash
-      //this.setState({ ipfsHash:ipfsHash[0].hash });
-      // call Ethereum contract method "sendHash" and .send IPFS hash to etheruem contract
+      this.setState({ ipfsHash:ipfsHash[0].hash });
+      //call Ethereum contract method "sendHash" and .send IPFS hash to etheruem contract
       //return the transaction hash from the ethereum contract
-      // storehash.methods.sendHash(this.state.ipfsHash).send({
-      //   from: accounts[0]}, (error, transactionHash) => {
-      //     console.log(transactionHash);
-      //     this.setState({transactionHash});
-      //   });
+      storehash.methods.setHash(this.state.ipfsHash).send({
+        from: accounts[0]}, (error, transactionHash) => {
+          console.log(transactionHash);
+          this.setState({transactionHash});
+        });
       })
     };
 
